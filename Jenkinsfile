@@ -5,7 +5,7 @@ pipeline {
       stage('Hello') {
          steps {
            getBundles('bundles')
-           println printDirectory();
+           
              }
           
          }
@@ -20,9 +20,7 @@ def getBundles(directory) {
    dir(directory){
     def files = findFiles()
         files.each{ f -> 
-      if(f.directory) {
-        echo "This is directory: ${f.name} "
-      }
+        echo "This file is: ${f.name} "
    }
    }
 }
