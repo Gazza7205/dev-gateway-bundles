@@ -5,7 +5,6 @@ pipeline {
       stage('Hello') {
          steps {
            getBundles('bundles')
-           
              }
           
          }
@@ -20,7 +19,12 @@ def getBundles(directory) {
    dir(directory){
     def files = findFiles()
         files.each{ f -> 
-        echo "This file is: ${f.name} "
+        echo "Posting: ${f.name}"
+        println postToGateway(file)
    }
    }
+}
+
+def postToGateway(file){
+   return sh(script: 'curl -u ${env.restman_username}:${env.restman_password -k ${env.gateway_hostname}${env.restman_path} -XPUT --data @file', returnStdout: true)
 }
