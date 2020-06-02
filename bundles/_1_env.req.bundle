@@ -22,7 +22,7 @@
             <l7:Resource>
                 <l7:ClusterProperty id="efa6324d69c65f8cbcbf28a203829fb1">
                     <l7:Name>myclusterprop</l7:Name>
-                    <l7:Value>jane new prop</l7:Value>
+                    <l7:Value>jane new pro1p</l7:Value>
                 </l7:ClusterProperty>
             </l7:Resource>
         </l7:Item>
