@@ -26,5 +26,5 @@ def getBundles(directory) {
 }
 
 def postToGateway(file){
-   return sh(script: "curl -u ${env.restman_username}:${env.restman_password} -k https://${env.gateway_hostname}${env.restman_path} -H 'Content-Type: application/xml' -XPUT --data-binary @file://bundles/$file.name", returnStdout: true)
+   return sh(script: "curl -u ${env.restman_username}:${env.restman_password} -k https://${env.gateway_hostname}${env.restman_path} -H 'Content-Type: application/xml' -XPUT --data-binary @bundles/$file.name", returnStdout: true)
 }
