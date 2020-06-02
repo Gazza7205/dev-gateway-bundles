@@ -35,5 +35,5 @@ def getBundles(directory) {
 def postToGateway(file){
    def abspath = pwd();
    echo abspath;
-   return sh(script: "curl -k -sLI -w '%{http_code}' -u ${env.restman_username}:${env.restman_password} https://${env.gateway_hostname}${env.restman_path} -H 'Content-Type: application/xml' -XPUT --data-binary @$file -o /dev/null", returnStdout: true)
+   return sh(script: "curl -ks -w '%{http_code}' -u ${env.restman_username}:${env.restman_password} https://${env.gateway_hostname}${env.restman_path} -H 'Content-Type: application/xml' -XPUT --data-binary @$file -o /dev/null", returnStdout: true)
 }
