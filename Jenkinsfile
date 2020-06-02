@@ -28,5 +28,5 @@ def getBundles(directory) {
 }
 
 def postToGateway(file){
-   return sh(script: "curl -u ${env.restman_username}:${env.restman_password} -k https://${env.gateway_hostname}${env.restman_path} -XPUT --data $file", returnStdout: true)
+   return sh(script: "curl -u ${env.restman_username}:${env.restman_password} -k https://${env.gateway_hostname}${env.restman_path} -XPUT --data-binary $file", returnStdout: true)
 }
