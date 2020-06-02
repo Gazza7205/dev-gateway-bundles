@@ -20,13 +20,13 @@ def getBundles(directory) {
     def files = findFiles()
         files.each{ f -> 
         echo "Posting: ${f.name}"
-        def myfile = readFile(f.name)
+        //def myfile = readFile(f.name)
         //echo myfile
-        println postToGateway(myfile)
+        println postToGateway(f.name)
    }
    }
 }
 
 def postToGateway(file){
-   return sh(script: "curl -u ${env.restman_username}:${env.restman_password} -k https://${env.gateway_hostname}${env.restman_path} -XPUT --data-binary $file", returnStdout: true)
+   return sh(script: "curl -u ${env.restman_username}:${env.restman_password} -k https://${env.gateway_hostname}${env.restman_path} -XPUT --data-binary @bundles/$file", returnStdout: true)
 }
