@@ -12,5 +12,5 @@ pipeline {
    }
    
 def printDirectory() {
-    return sh(script: 'ls', returnStdout: true);
+    return sh(script: 'ls bundles/', returnStdout: true);
 }
