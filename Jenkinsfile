@@ -2,20 +2,16 @@ pipeline {
    agent any
 
    stages {
-      stage('Hello') {
+      stage('Update Target Gateway') {
          steps {
-           getBundles('bundles')
+           Restman('bundles')
              }
           
          }
       }
    }
    
-def printDirectory() {
-    return sh(script: 'ls bundles/', returnStdout: true);
-}
-
-def getBundles(directory) {
+def Restman(directory) {
    dir(directory){
     def files = findFiles()
         files.each{ f -> 
@@ -27,13 +23,10 @@ def getBundles(directory) {
            else{
               echo "Upload to ${env.gateway_hostname} successful"
            }
-       // println postToGateway(f.name)
    }
    }
 }
 
 def postToGateway(file){
-   def abspath = pwd();
-   echo abspath;
    return sh(script: "curl -ks -w '%{http_code}' -u ${env.restman_username}:${env.restman_password} https://${env.gateway_hostname}${env.restman_path} -H 'Content-Type: application/xml' -XPUT --data-binary @$file -o /dev/null", returnStdout: true)
 }
