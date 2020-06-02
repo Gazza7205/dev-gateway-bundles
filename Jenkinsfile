@@ -22,6 +22,8 @@ def getBundles(directory) {
         echo "Posting: ${f.name}"
         //def myfile = readFile(f.name)
         //echo myfile
+        def abspath = pwd();
+        echo abspath;
         println postToGateway(f.name)
    }
    }
