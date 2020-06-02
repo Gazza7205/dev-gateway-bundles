@@ -1,0 +1,712 @@
+<l7:Bundle xmlns:l7="http://ns.l7tech.com/2010/04/gateway-management">
+    <l7:References>
+        <l7:Item>
+            <l7:Name>Root Node</l7:Name>
+            <l7:Id>0000000000000000ffffffffffffec76</l7:Id>
+            <l7:Type>FOLDER</l7:Type>
+            <l7:Resource>
+                <l7:Folder id="0000000000000000ffffffffffffec76">
+                    <l7:Name>Root Node</l7:Name>
+                </l7:Folder>
+            </l7:Resource>
+        </l7:Item>
+        <l7:Item>
+            <l7:Name>dmz/</l7:Name>
+            <l7:Id>31cb1b3b3050ba5e93855dd39c91504b</l7:Id>
+            <l7:Type>FOLDER</l7:Type>
+            <l7:Resource>
+                <l7:Folder folderId="0000000000000000ffffffffffffec76" id="31cb1b3b3050ba5e93855dd39c91504b">
+                    <l7:Name>dmz</l7:Name>
+                </l7:Folder>
+            </l7:Resource>
+        </l7:Item>
+        <l7:Item>
+            <l7:Name>dmz/performance test</l7:Name>
+            <l7:Id>31cb1b3b3050ba5e93855dd39c91504c</l7:Id>
+            <l7:Type>SERVICE</l7:Type>
+            <l7:Resource>
+                <l7:Service id="31cb1b3b3050ba5e93855dd39c91504c">
+                    <l7:ServiceDetail folderId="31cb1b3b3050ba5e93855dd39c91504b" id="31cb1b3b3050ba5e93855dd39c91504c">
+                        <l7:Name>performance test</l7:Name>
+                        <l7:Enabled>true</l7:Enabled>
+                        <l7:ServiceMappings>
+                            <l7:HttpMapping>
+                                <l7:UrlPattern>/perftest</l7:UrlPattern>
+                                <l7:Verbs>
+                                    <l7:Verb>DELETE</l7:Verb>
+                                    <l7:Verb>POST</l7:Verb>
+                                    <l7:Verb>GET</l7:Verb>
+                                    <l7:Verb>PUT</l7:Verb>
+                                </l7:Verbs>
+                            </l7:HttpMapping>
+                        </l7:ServiceMappings>
+                        <l7:Properties>
+                            <l7:Property key="wssProcessingEnabled">
+                                <l7:BooleanValue>false</l7:BooleanValue>
+                            </l7:Property>
+                        </l7:Properties>
+                    </l7:ServiceDetail>
+                    <l7:Resources>
+                        <l7:ResourceSet tag="policy">
+                            <l7:Resource type="policy">&lt;wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:L7p="http://www.layer7tech.com/ws/policy"&gt;
+    &lt;wsp:All wsp:Usage="Required"&gt;
+        &lt;L7p:CustomizeErrorResponse&gt;
+            &lt;L7p:Content stringValue="API Error: Policy Violation"/&gt;
+            &lt;L7p:ExtraHeaders nameValuePairArray="included"/&gt;
+        &lt;/L7p:CustomizeErrorResponse&gt;
+        &lt;L7p:ComparisonAssertion&gt;
+            &lt;L7p:CaseSensitive booleanValue="false"/&gt;
+            &lt;L7p:Expression1 stringValue="${request.http.header.foo}"/&gt;
+            &lt;L7p:Operator operatorNull="null"/&gt;
+            &lt;L7p:Predicates predicates="included"&gt;
+                &lt;L7p:item dataType="included"&gt;
+                    &lt;L7p:Type variableDataType="string"/&gt;
+                &lt;/L7p:item&gt;
+                &lt;L7p:item binary="included"&gt;
+                    &lt;L7p:RightValue stringValue="Foo"/&gt;
+                &lt;/L7p:item&gt;
+            &lt;/L7p:Predicates&gt;
+        &lt;/L7p:ComparisonAssertion&gt;
+        &lt;L7p:SetVariable&gt;
+            &lt;L7p:Base64Expression stringValue="JHtnYXRld2F5LnBlcmZ0ZXN0LnVybH0="/&gt;
+            &lt;L7p:VariableToSet stringValue="perftestRoute"/&gt;
+        &lt;/L7p:SetVariable&gt;
+        &lt;wsp:OneOrMore wsp:Usage="Required"&gt;
+            &lt;wsp:All wsp:Usage="Required"&gt;
+                &lt;L7p:ComparisonAssertion&gt;
+                    &lt;L7p:CaseSensitive booleanValue="false"/&gt;
+                    &lt;L7p:Expression1 stringValue="${request.http.header.route}"/&gt;
+                    &lt;L7p:Operator operatorNull="null"/&gt;
+                    &lt;L7p:Predicates predicates="included"&gt;
+                        &lt;L7p:item dataType="included"&gt;
+                            &lt;L7p:Type variableDataType="string"/&gt;
+                        &lt;/L7p:item&gt;
+                        &lt;L7p:item binary="included"&gt;
+                            &lt;L7p:CaseSensitive booleanValue="false"/&gt;
+                            &lt;L7p:RightValue stringValue="yes"/&gt;
+                        &lt;/L7p:item&gt;
+                    &lt;/L7p:Predicates&gt;
+                &lt;/L7p:ComparisonAssertion&gt;
+                &lt;L7p:HttpRoutingAssertion&gt;
+                    &lt;L7p:CustomURLs stringArrayValue="included"&gt;
+                        &lt;L7p:item stringValue="${perftestRoute}"/&gt;
+                    &lt;/L7p:CustomURLs&gt;
+                    &lt;L7p:ProtectedServiceUrl stringValue="${perftestRoute}"/&gt;
+                    &lt;L7p:ProxyPassword stringValueNull="null"/&gt;
+                    &lt;L7p:ProxyUsername stringValueNull="null"/&gt;
+                    &lt;L7p:RequestHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="SOAPAction"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:RequestHeaderRules&gt;
+                    &lt;L7p:RequestParamRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"/&gt;
+                    &lt;/L7p:RequestParamRules&gt;
+                    &lt;L7p:ResponseHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Set-Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:ResponseHeaderRules&gt;
+                    &lt;L7p:SamlAssertionVersion intValue="2"/&gt;
+                &lt;/L7p:HttpRoutingAssertion&gt;
+            &lt;/wsp:All&gt;
+            &lt;L7p:HardcodedResponse&gt;
+                &lt;L7p:Base64ResponseBody stringValue="T0s="/&gt;
+                &lt;L7p:ResponseContentType stringValue="text/plain; charset=UTF-8"/&gt;
+            &lt;/L7p:HardcodedResponse&gt;
+        &lt;/wsp:OneOrMore&gt;
+    &lt;/wsp:All&gt;
+&lt;/wsp:Policy&gt;
+</l7:Resource>
+                        </l7:ResourceSet>
+                    </l7:Resources>
+                </l7:Service>
+            </l7:Resource>
+        </l7:Item>
+        <l7:Item>
+            <l7:Name>dmz/OAuth Manager RP</l7:Name>
+            <l7:Id>31cb1b3b3050ba5e93855dd39c91504d</l7:Id>
+            <l7:Type>SERVICE</l7:Type>
+            <l7:Resource>
+                <l7:Service id="31cb1b3b3050ba5e93855dd39c91504d">
+                    <l7:ServiceDetail folderId="31cb1b3b3050ba5e93855dd39c91504b" id="31cb1b3b3050ba5e93855dd39c91504d">
+                        <l7:Name>OAuth Manager RP</l7:Name>
+                        <l7:Enabled>true</l7:Enabled>
+                        <l7:ServiceMappings>
+                            <l7:HttpMapping>
+                                <l7:UrlPattern>/oauth/*</l7:UrlPattern>
+                                <l7:Verbs>
+                                    <l7:Verb>DELETE</l7:Verb>
+                                    <l7:Verb>POST</l7:Verb>
+                                    <l7:Verb>GET</l7:Verb>
+                                    <l7:Verb>PUT</l7:Verb>
+                                </l7:Verbs>
+                            </l7:HttpMapping>
+                        </l7:ServiceMappings>
+                        <l7:Properties>
+                            <l7:Property key="wssProcessingEnabled">
+                                <l7:BooleanValue>false</l7:BooleanValue>
+                            </l7:Property>
+                        </l7:Properties>
+                    </l7:ServiceDetail>
+                    <l7:Resources>
+                        <l7:ResourceSet tag="policy">
+                            <l7:Resource type="policy">&lt;wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:L7p="http://www.layer7tech.com/ws/policy"&gt;
+    &lt;wsp:All wsp:Usage="Required"&gt;
+        &lt;L7p:SslAssertion/&gt;
+        &lt;wsp:All wsp:Usage="Required"&gt;
+            &lt;L7p:SetVariable&gt;
+                &lt;L7p:Base64Expression stringValue="JHtyZXF1ZXN0LnVybC5ob3N0fToke3JlcXVlc3QudXJsLnBvcnR9"/&gt;
+                &lt;L7p:VariableToSet stringValue="requestHost"/&gt;
+            &lt;/L7p:SetVariable&gt;
+            &lt;L7p:SetVariable&gt;
+                &lt;L7p:Base64Expression stringValue="c3RzLWdhdGV3YXk6ODQ0Mw=="/&gt;
+                &lt;L7p:VariableToSet stringValue="webRouteHost"/&gt;
+            &lt;/L7p:SetVariable&gt;
+            &lt;L7p:SetVariable&gt;
+                &lt;L7p:Base64Expression stringValue="c3RzLWdhdGV3YXk6NDQz"/&gt;
+                &lt;L7p:VariableToSet stringValue="webAppHost"/&gt;
+            &lt;/L7p:SetVariable&gt;
+            &lt;L7p:SetVariable&gt;
+                &lt;L7p:Base64Expression stringValue="ZmFsc2U="/&gt;
+                &lt;L7p:VariableToSet stringValue="response.cookie.overwritePath"/&gt;
+            &lt;/L7p:SetVariable&gt;
+            &lt;L7p:SetVariable&gt;
+                &lt;L7p:Base64Expression stringValue="ZmFsc2U="/&gt;
+                &lt;L7p:VariableToSet stringValue="response.cookie.overwriteDomain"/&gt;
+            &lt;/L7p:SetVariable&gt;
+            &lt;L7p:SetVariable&gt;
+                &lt;L7p:Base64Expression stringValue="JHtyZXF1ZXN0LnVybC5xdWVyeX0="/&gt;
+                &lt;L7p:VariableToSet stringValue="query"/&gt;
+            &lt;/L7p:SetVariable&gt;
+            &lt;L7p:assertionComment&gt;
+                &lt;L7p:Properties mapValue="included"&gt;
+                    &lt;L7p:entry&gt;
+                        &lt;L7p:key stringValue="RIGHT.COMMENT"/&gt;
+                        &lt;L7p:value stringValue="// CONSTANTS"/&gt;
+                    &lt;/L7p:entry&gt;
+                &lt;/L7p:Properties&gt;
+            &lt;/L7p:assertionComment&gt;
+        &lt;/wsp:All&gt;
+        &lt;L7p:Regex&gt;
+            &lt;L7p:AssertionComment assertionComment="included"&gt;
+                &lt;L7p:Properties mapValue="included"&gt;
+                    &lt;L7p:entry&gt;
+                        &lt;L7p:key stringValue="RIGHT.COMMENT"/&gt;
+                        &lt;L7p:value stringValue="// REWRITE REQUEST QUERY"/&gt;
+                    &lt;/L7p:entry&gt;
+                &lt;/L7p:Properties&gt;
+            &lt;/L7p:AssertionComment&gt;
+            &lt;L7p:AutoTarget booleanValue="false"/&gt;
+            &lt;L7p:CaseInsensitive booleanValue="true"/&gt;
+            &lt;L7p:OtherTargetMessageVariable stringValue="query"/&gt;
+            &lt;L7p:PatternContainsVariables booleanValue="true"/&gt;
+            &lt;L7p:Regex stringValue="${requestHost}"/&gt;
+            &lt;L7p:Replace booleanValue="true"/&gt;
+            &lt;L7p:Replacement stringValue="${webAppHost}"/&gt;
+            &lt;L7p:Target target="OTHER"/&gt;
+        &lt;/L7p:Regex&gt;
+        &lt;L7p:Regex&gt;
+            &lt;L7p:AssertionComment assertionComment="included"&gt;
+                &lt;L7p:Properties mapValue="included"&gt;
+                    &lt;L7p:entry&gt;
+                        &lt;L7p:key stringValue="RIGHT.COMMENT"/&gt;
+                        &lt;L7p:value stringValue="// REWRITE REQUEST BODY"/&gt;
+                    &lt;/L7p:entry&gt;
+                &lt;/L7p:Properties&gt;
+            &lt;/L7p:AssertionComment&gt;
+            &lt;L7p:AutoTarget booleanValue="false"/&gt;
+            &lt;L7p:CaseInsensitive booleanValue="true"/&gt;
+            &lt;L7p:PatternContainsVariables booleanValue="true"/&gt;
+            &lt;L7p:Regex stringValue="${requestHost}"/&gt;
+            &lt;L7p:Replace booleanValue="true"/&gt;
+            &lt;L7p:Replacement stringValue="${webAppHost}"/&gt;
+        &lt;/L7p:Regex&gt;
+        &lt;L7p:ManageCookie&gt;
+            &lt;L7p:AssertionComment assertionComment="included"&gt;
+                &lt;L7p:Properties mapValue="included"&gt;
+                    &lt;L7p:entry&gt;
+                        &lt;L7p:key stringValue="RIGHT.COMMENT"/&gt;
+                        &lt;L7p:value stringValue="// REWRITE REQUEST COOKIE DOMAINS"/&gt;
+                    &lt;/L7p:entry&gt;
+                &lt;/L7p:Properties&gt;
+            &lt;/L7p:AssertionComment&gt;
+            &lt;L7p:CookieAttributes mapValue="included"&gt;
+                &lt;L7p:entry&gt;
+                    &lt;L7p:key stringValue="domain"/&gt;
+                    &lt;L7p:value nameValuePair="included"&gt;
+                        &lt;L7p:Key stringValue="domain"/&gt;
+                        &lt;L7p:Value stringValue="${webAppHost}"/&gt;
+                    &lt;/L7p:value&gt;
+                &lt;/L7p:entry&gt;
+            &lt;/L7p:CookieAttributes&gt;
+            &lt;L7p:CookieCriteria mapValue="included"&gt;
+                &lt;L7p:entry&gt;
+                    &lt;L7p:key stringValue="domain"/&gt;
+                    &lt;L7p:value cookieCriteria="included"&gt;
+                        &lt;L7p:Key stringValue="domain"/&gt;
+                        &lt;L7p:Value stringValue="${request.url.host}"/&gt;
+                    &lt;/L7p:value&gt;
+                &lt;/L7p:entry&gt;
+            &lt;/L7p:CookieCriteria&gt;
+            &lt;L7p:Operation operation="UPDATE"/&gt;
+        &lt;/L7p:ManageCookie&gt;
+        &lt;L7p:HttpRoutingAssertion&gt;
+            &lt;L7p:FailOnErrorStatus booleanValue="false"/&gt;
+            &lt;L7p:ProtectedServiceUrl stringValue="https://${webRouteHost}${request.url.path}${query}"/&gt;
+            &lt;L7p:ProxyPassword stringValueNull="null"/&gt;
+            &lt;L7p:ProxyUsername stringValueNull="null"/&gt;
+            &lt;L7p:RequestHeaderRules httpPassthroughRuleSet="included"&gt;
+                &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                &lt;L7p:Rules httpPassthroughRules="included"/&gt;
+            &lt;/L7p:RequestHeaderRules&gt;
+            &lt;L7p:RequestParamRules httpPassthroughRuleSet="included"&gt;
+                &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                &lt;L7p:Rules httpPassthroughRules="included"/&gt;
+            &lt;/L7p:RequestParamRules&gt;
+            &lt;L7p:ResponseHeaderRules httpPassthroughRuleSet="included"&gt;
+                &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                &lt;L7p:Rules httpPassthroughRules="included"/&gt;
+            &lt;/L7p:ResponseHeaderRules&gt;
+        &lt;/L7p:HttpRoutingAssertion&gt;
+        &lt;L7p:ManageCookie&gt;
+            &lt;L7p:AssertionComment assertionComment="included"&gt;
+                &lt;L7p:Properties mapValue="included"&gt;
+                    &lt;L7p:entry&gt;
+                        &lt;L7p:key stringValue="RIGHT.COMMENT"/&gt;
+                        &lt;L7p:value stringValue="// REWRITE RESPONSE COOKIE DOMAINS"/&gt;
+                    &lt;/L7p:entry&gt;
+                &lt;/L7p:Properties&gt;
+            &lt;/L7p:AssertionComment&gt;
+            &lt;L7p:CookieAttributes mapValue="included"&gt;
+                &lt;L7p:entry&gt;
+                    &lt;L7p:key stringValue="domain"/&gt;
+                    &lt;L7p:value nameValuePair="included"&gt;
+                        &lt;L7p:Key stringValue="domain"/&gt;
+                        &lt;L7p:Value stringValue="${request.url.host}"/&gt;
+                    &lt;/L7p:value&gt;
+                &lt;/L7p:entry&gt;
+            &lt;/L7p:CookieAttributes&gt;
+            &lt;L7p:CookieCriteria mapValue="included"&gt;
+                &lt;L7p:entry&gt;
+                    &lt;L7p:key stringValue="domain"/&gt;
+                    &lt;L7p:value cookieCriteria="included"&gt;
+                        &lt;L7p:Key stringValue="domain"/&gt;
+                        &lt;L7p:Value stringValue="${webAppHost}"/&gt;
+                    &lt;/L7p:value&gt;
+                &lt;/L7p:entry&gt;
+            &lt;/L7p:CookieCriteria&gt;
+            &lt;L7p:Operation operation="UPDATE"/&gt;
+            &lt;L7p:Target target="RESPONSE"/&gt;
+        &lt;/L7p:ManageCookie&gt;
+        &lt;wsp:OneOrMore wsp:Usage="Required"&gt;
+            &lt;wsp:All wsp:Usage="Required"&gt;
+                &lt;L7p:ComparisonAssertion&gt;
+                    &lt;L7p:Expression1 stringValue="${response.http.header.location}"/&gt;
+                    &lt;L7p:ExpressionIsVariable booleanValue="false"/&gt;
+                    &lt;L7p:Negate booleanValue="true"/&gt;
+                    &lt;L7p:Operator operator="EMPTY"/&gt;
+                    &lt;L7p:Predicates predicates="included"&gt;
+                        &lt;L7p:item binary="included"&gt;
+                            &lt;L7p:Negated booleanValue="true"/&gt;
+                            &lt;L7p:Operator operator="EMPTY"/&gt;
+                        &lt;/L7p:item&gt;
+                    &lt;/L7p:Predicates&gt;
+                &lt;/L7p:ComparisonAssertion&gt;
+                &lt;L7p:SetVariable&gt;
+                    &lt;L7p:Base64Expression stringValue="JHtyZXNwb25zZS5odHRwLmhlYWRlci5sb2NhdGlvbn0="/&gt;
+                    &lt;L7p:VariableToSet stringValue="l7_tmp_header"/&gt;
+                &lt;/L7p:SetVariable&gt;
+                &lt;L7p:Regex&gt;
+                    &lt;L7p:AutoTarget booleanValue="false"/&gt;
+                    &lt;L7p:OtherTargetMessageVariable stringValue="l7_tmp_header"/&gt;
+                    &lt;L7p:PatternContainsVariables booleanValue="true"/&gt;
+                    &lt;L7p:Regex stringValue="${webAppHost}"/&gt;
+                    &lt;L7p:Replace booleanValue="true"/&gt;
+                    &lt;L7p:Replacement stringValue="${requestHost}"/&gt;
+                    &lt;L7p:Target target="OTHER"/&gt;
+                &lt;/L7p:Regex&gt;
+                &lt;L7p:AddHeader&gt;
+                    &lt;L7p:HeaderName stringValue="location"/&gt;
+                    &lt;L7p:HeaderValue stringValue="${l7_tmp_header}"/&gt;
+                    &lt;L7p:RemoveExisting booleanValue="true"/&gt;
+                    &lt;L7p:Target target="RESPONSE"/&gt;
+                &lt;/L7p:AddHeader&gt;
+            &lt;/wsp:All&gt;
+            &lt;L7p:TrueAssertion/&gt;
+            &lt;L7p:assertionComment&gt;
+                &lt;L7p:Properties mapValue="included"&gt;
+                    &lt;L7p:entry&gt;
+                        &lt;L7p:key stringValue="RIGHT.COMMENT"/&gt;
+                        &lt;L7p:value stringValue="// REWRITE LOCATION HEADER"/&gt;
+                    &lt;/L7p:entry&gt;
+                &lt;/L7p:Properties&gt;
+            &lt;/L7p:assertionComment&gt;
+        &lt;/wsp:OneOrMore&gt;
+        &lt;L7p:Regex&gt;
+            &lt;L7p:AssertionComment assertionComment="included"&gt;
+                &lt;L7p:Properties mapValue="included"&gt;
+                    &lt;L7p:entry&gt;
+                        &lt;L7p:key stringValue="RIGHT.COMMENT"/&gt;
+                        &lt;L7p:value stringValue="// REWRITE RESPONSE BODY"/&gt;
+                    &lt;/L7p:entry&gt;
+                &lt;/L7p:Properties&gt;
+            &lt;/L7p:AssertionComment&gt;
+            &lt;L7p:AutoTarget booleanValue="false"/&gt;
+            &lt;L7p:CaseInsensitive booleanValue="true"/&gt;
+            &lt;L7p:PatternContainsVariables booleanValue="true"/&gt;
+            &lt;L7p:Regex stringValue="${webAppHost}"/&gt;
+            &lt;L7p:Replace booleanValue="true"/&gt;
+            &lt;L7p:Replacement stringValue="${requestHost}"/&gt;
+            &lt;L7p:Target target="RESPONSE"/&gt;
+        &lt;/L7p:Regex&gt;
+        &lt;L7p:Regex&gt;
+            &lt;L7p:AssertionComment assertionComment="included"&gt;
+                &lt;L7p:Properties mapValue="included"&gt;
+                    &lt;L7p:entry&gt;
+                        &lt;L7p:key stringValue="RIGHT.COMMENT"/&gt;
+                        &lt;L7p:value stringValue="// REWRITE RESPONSE BODY"/&gt;
+                    &lt;/L7p:entry&gt;
+                &lt;/L7p:Properties&gt;
+            &lt;/L7p:AssertionComment&gt;
+            &lt;L7p:AutoTarget booleanValue="false"/&gt;
+            &lt;L7p:CaseInsensitive booleanValue="true"/&gt;
+            &lt;L7p:PatternContainsVariables booleanValue="true"/&gt;
+            &lt;L7p:Regex stringValue="${webRouteHost}"/&gt;
+            &lt;L7p:Replace booleanValue="true"/&gt;
+            &lt;L7p:Replacement stringValue="${requestHost}"/&gt;
+            &lt;L7p:Target target="RESPONSE"/&gt;
+        &lt;/L7p:Regex&gt;
+    &lt;/wsp:All&gt;
+&lt;/wsp:Policy&gt;
+</l7:Resource>
+                        </l7:ResourceSet>
+                    </l7:Resources>
+                </l7:Service>
+            </l7:Resource>
+        </l7:Item>
+        <l7:Item>
+            <l7:Name>dmz/Istio East West Demo App</l7:Name>
+            <l7:Id>31cb1b3b3050ba5e93855dd39c91504e</l7:Id>
+            <l7:Type>SERVICE</l7:Type>
+            <l7:Resource>
+                <l7:Service id="31cb1b3b3050ba5e93855dd39c91504e">
+                    <l7:ServiceDetail folderId="31cb1b3b3050ba5e93855dd39c91504b" id="31cb1b3b3050ba5e93855dd39c91504e">
+                        <l7:Name>Istio East West Demo App</l7:Name>
+                        <l7:Enabled>true</l7:Enabled>
+                        <l7:ServiceMappings>
+                            <l7:HttpMapping>
+                                <l7:UrlPattern>/*</l7:UrlPattern>
+                                <l7:Verbs>
+                                    <l7:Verb>DELETE</l7:Verb>
+                                    <l7:Verb>POST</l7:Verb>
+                                    <l7:Verb>GET</l7:Verb>
+                                    <l7:Verb>PUT</l7:Verb>
+                                </l7:Verbs>
+                            </l7:HttpMapping>
+                        </l7:ServiceMappings>
+                        <l7:Properties>
+                            <l7:Property key="wssProcessingEnabled">
+                                <l7:BooleanValue>false</l7:BooleanValue>
+                            </l7:Property>
+                        </l7:Properties>
+                    </l7:ServiceDetail>
+                    <l7:Resources>
+                        <l7:ResourceSet tag="policy">
+                            <l7:Resource type="policy">&lt;wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:L7p="http://www.layer7tech.com/ws/policy"&gt;
+    &lt;wsp:All wsp:Usage="Required"&gt;
+        &lt;L7p:SetVariable&gt;
+            &lt;L7p:Base64Expression stringValue="JHtnYXRld2F5LmRlbW8udXJsfQ=="/&gt;
+            &lt;L7p:VariableToSet stringValue="testUrl"/&gt;
+        &lt;/L7p:SetVariable&gt;
+        &lt;wsp:OneOrMore wsp:Usage="Required"&gt;
+            &lt;wsp:All wsp:Usage="Required"&gt;
+                &lt;L7p:ComparisonAssertion&gt;
+                    &lt;L7p:Expression1 stringValue="${request.http.uri}"/&gt;
+                    &lt;L7p:Expression2 stringValue="/login"/&gt;
+                    &lt;L7p:Predicates predicates="included"&gt;
+                        &lt;L7p:item binary="included"&gt;
+                            &lt;L7p:RightValue stringValue="/login"/&gt;
+                        &lt;/L7p:item&gt;
+                    &lt;/L7p:Predicates&gt;
+                &lt;/L7p:ComparisonAssertion&gt;
+                &lt;L7p:AddHeader&gt;
+                    &lt;L7p:HeaderName stringValue="x-custom-token"/&gt;
+                    &lt;L7p:HeaderValue stringValue="abc"/&gt;
+                    &lt;L7p:RemoveExisting booleanValue="true"/&gt;
+                &lt;/L7p:AddHeader&gt;
+                &lt;L7p:AddHeader&gt;
+                    &lt;L7p:HeaderName stringValue="content-type"/&gt;
+                    &lt;L7p:HeaderValue stringValue="application/json"/&gt;
+                    &lt;L7p:RemoveExisting booleanValue="true"/&gt;
+                &lt;/L7p:AddHeader&gt;
+                &lt;L7p:HttpRoutingAssertion&gt;
+                    &lt;L7p:FailOnErrorStatus booleanValue="false"/&gt;
+                    &lt;L7p:ProtectedServiceUrl stringValue="${testUrl}/login"/&gt;
+                    &lt;L7p:ProxyPassword stringValueNull="null"/&gt;
+                    &lt;L7p:ProxyUsername stringValueNull="null"/&gt;
+                    &lt;L7p:RequestHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="SOAPAction"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:RequestHeaderRules&gt;
+                    &lt;L7p:RequestParamRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"/&gt;
+                    &lt;/L7p:RequestParamRules&gt;
+                    &lt;L7p:ResponseHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Set-Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:ResponseHeaderRules&gt;
+                    &lt;L7p:SamlAssertionVersion intValue="2"/&gt;
+                &lt;/L7p:HttpRoutingAssertion&gt;
+            &lt;/wsp:All&gt;
+            &lt;wsp:All wsp:Usage="Required"&gt;
+                &lt;L7p:ComparisonAssertion&gt;
+                    &lt;L7p:Expression1 stringValue="${request.http.uri}"/&gt;
+                    &lt;L7p:Expression2 stringValue="/register"/&gt;
+                    &lt;L7p:Predicates predicates="included"&gt;
+                        &lt;L7p:item binary="included"&gt;
+                            &lt;L7p:RightValue stringValue="/register"/&gt;
+                        &lt;/L7p:item&gt;
+                    &lt;/L7p:Predicates&gt;
+                &lt;/L7p:ComparisonAssertion&gt;
+                &lt;L7p:AddHeader&gt;
+                    &lt;L7p:HeaderName stringValue="x-custom-token"/&gt;
+                    &lt;L7p:HeaderValue stringValue="abc"/&gt;
+                    &lt;L7p:RemoveExisting booleanValue="true"/&gt;
+                &lt;/L7p:AddHeader&gt;
+                &lt;L7p:AddHeader&gt;
+                    &lt;L7p:HeaderName stringValue="content-type"/&gt;
+                    &lt;L7p:HeaderValue stringValue="application/json"/&gt;
+                    &lt;L7p:RemoveExisting booleanValue="true"/&gt;
+                &lt;/L7p:AddHeader&gt;
+                &lt;L7p:HttpRoutingAssertion&gt;
+                    &lt;L7p:FailOnErrorStatus booleanValue="false"/&gt;
+                    &lt;L7p:ProtectedServiceUrl stringValue="${testUrl}/register"/&gt;
+                    &lt;L7p:ProxyPassword stringValueNull="null"/&gt;
+                    &lt;L7p:ProxyUsername stringValueNull="null"/&gt;
+                    &lt;L7p:RequestHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="SOAPAction"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:RequestHeaderRules&gt;
+                    &lt;L7p:RequestParamRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"/&gt;
+                    &lt;/L7p:RequestParamRules&gt;
+                    &lt;L7p:ResponseHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Set-Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:ResponseHeaderRules&gt;
+                    &lt;L7p:SamlAssertionVersion intValue="2"/&gt;
+                &lt;/L7p:HttpRoutingAssertion&gt;
+            &lt;/wsp:All&gt;
+            &lt;wsp:All wsp:Usage="Required"&gt;
+                &lt;L7p:ComparisonAssertion&gt;
+                    &lt;L7p:Expression1 stringValue="${request.http.uri}"/&gt;
+                    &lt;L7p:Expression2 stringValue="/topic"/&gt;
+                    &lt;L7p:Predicates predicates="included"&gt;
+                        &lt;L7p:item binary="included"&gt;
+                            &lt;L7p:RightValue stringValue="/topic"/&gt;
+                        &lt;/L7p:item&gt;
+                    &lt;/L7p:Predicates&gt;
+                &lt;/L7p:ComparisonAssertion&gt;
+                &lt;L7p:ComparisonAssertion&gt;
+                    &lt;L7p:CaseSensitive booleanValue="false"/&gt;
+                    &lt;L7p:Expression1 stringValue="${request.http.method}"/&gt;
+                    &lt;L7p:Expression2 stringValue="POST"/&gt;
+                    &lt;L7p:Predicates predicates="included"&gt;
+                        &lt;L7p:item binary="included"&gt;
+                            &lt;L7p:CaseSensitive booleanValue="false"/&gt;
+                            &lt;L7p:RightValue stringValue="POST"/&gt;
+                        &lt;/L7p:item&gt;
+                    &lt;/L7p:Predicates&gt;
+                &lt;/L7p:ComparisonAssertion&gt;
+                &lt;L7p:AddHeader&gt;
+                    &lt;L7p:Enabled booleanValue="false"/&gt;
+                    &lt;L7p:HeaderName stringValue="x-custom-token"/&gt;
+                    &lt;L7p:HeaderValue stringValue="abc"/&gt;
+                    &lt;L7p:RemoveExisting booleanValue="true"/&gt;
+                &lt;/L7p:AddHeader&gt;
+                &lt;L7p:AddHeader&gt;
+                    &lt;L7p:HeaderName stringValue="content-type"/&gt;
+                    &lt;L7p:HeaderValue stringValue="application/json"/&gt;
+                    &lt;L7p:RemoveExisting booleanValue="true"/&gt;
+                &lt;/L7p:AddHeader&gt;
+                &lt;L7p:HttpRoutingAssertion&gt;
+                    &lt;L7p:FailOnErrorStatus booleanValue="false"/&gt;
+                    &lt;L7p:ProtectedServiceUrl stringValue="${testUrl}/topic"/&gt;
+                    &lt;L7p:ProxyPassword stringValueNull="null"/&gt;
+                    &lt;L7p:ProxyUsername stringValueNull="null"/&gt;
+                    &lt;L7p:RequestHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="SOAPAction"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:RequestHeaderRules&gt;
+                    &lt;L7p:RequestParamRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"/&gt;
+                    &lt;/L7p:RequestParamRules&gt;
+                    &lt;L7p:ResponseHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Set-Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:ResponseHeaderRules&gt;
+                    &lt;L7p:SamlAssertionVersion intValue="2"/&gt;
+                &lt;/L7p:HttpRoutingAssertion&gt;
+            &lt;/wsp:All&gt;
+            &lt;wsp:All wsp:Usage="Required"&gt;
+                &lt;L7p:ComparisonAssertion&gt;
+                    &lt;L7p:Expression1 stringValue="${request.http.uri}"/&gt;
+                    &lt;L7p:Expression2 stringValue="/topic"/&gt;
+                    &lt;L7p:Predicates predicates="included"&gt;
+                        &lt;L7p:item binary="included"&gt;
+                            &lt;L7p:RightValue stringValue="/topic"/&gt;
+                        &lt;/L7p:item&gt;
+                    &lt;/L7p:Predicates&gt;
+                &lt;/L7p:ComparisonAssertion&gt;
+                &lt;L7p:ComparisonAssertion&gt;
+                    &lt;L7p:CaseSensitive booleanValue="false"/&gt;
+                    &lt;L7p:Expression1 stringValue="${request.http.method}"/&gt;
+                    &lt;L7p:Expression2 stringValue="GET"/&gt;
+                    &lt;L7p:Predicates predicates="included"&gt;
+                        &lt;L7p:item binary="included"&gt;
+                            &lt;L7p:CaseSensitive booleanValue="false"/&gt;
+                            &lt;L7p:RightValue stringValue="GET"/&gt;
+                        &lt;/L7p:item&gt;
+                    &lt;/L7p:Predicates&gt;
+                &lt;/L7p:ComparisonAssertion&gt;
+                &lt;L7p:AddHeader&gt;
+                    &lt;L7p:HeaderName stringValue="content-type"/&gt;
+                    &lt;L7p:HeaderValue stringValue="application/json"/&gt;
+                    &lt;L7p:RemoveExisting booleanValue="true"/&gt;
+                &lt;/L7p:AddHeader&gt;
+                &lt;L7p:HttpRoutingAssertion&gt;
+                    &lt;L7p:FailOnErrorStatus booleanValue="false"/&gt;
+                    &lt;L7p:ProtectedServiceUrl stringValue="${testUrl}/topic"/&gt;
+                    &lt;L7p:ProxyPassword stringValueNull="null"/&gt;
+                    &lt;L7p:ProxyUsername stringValueNull="null"/&gt;
+                    &lt;L7p:RequestHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="SOAPAction"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:RequestHeaderRules&gt;
+                    &lt;L7p:RequestParamRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"/&gt;
+                    &lt;/L7p:RequestParamRules&gt;
+                    &lt;L7p:ResponseHeaderRules httpPassthroughRuleSet="included"&gt;
+                        &lt;L7p:ForwardAll booleanValue="true"/&gt;
+                        &lt;L7p:Rules httpPassthroughRules="included"&gt;
+                            &lt;L7p:item httpPassthroughRule="included"&gt;
+                                &lt;L7p:Name stringValue="Set-Cookie"/&gt;
+                            &lt;/L7p:item&gt;
+                        &lt;/L7p:Rules&gt;
+                    &lt;/L7p:ResponseHeaderRules&gt;
+                    &lt;L7p:SamlAssertionVersion intValue="2"/&gt;
+                &lt;/L7p:HttpRoutingAssertion&gt;
+            &lt;/wsp:All&gt;
+            &lt;L7p:HardcodedResponse&gt;
+                &lt;L7p:Base64ResponseBody stringValue="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+Cgo8aGVhZD4KICAgIDxtZXRhIGNoYXJzZXQ9InV0Zi04IiAvPgogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xIj4KICAgIDx0aXRsZT5FYXN0L1dlc3QgRGVtbyBhcHA8L3RpdGxlPgoKICAgIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MSwgdXNlci1zY2FsYWJsZT1ubyI+CgogICAgPGxpbmsgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9pY29uP2ZhbWlseT1NYXRlcmlhbCtJY29ucyIgcmVsPSJzdHlsZXNoZWV0Ij4KICAgIDxsaW5rIGhyZWY9ImNzcy9zaXRlLmNzcyIgcmVsPSJzdHlsZXNoZWV0IiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9tYXRlcmlhbGl6ZS8wLjk4LjIvY3NzL21hdGVyaWFsaXplLm1pbi5jc3MiIC8+CiAgICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgICAgICNtYXAgewogICAgICAgICAgICBoZWlnaHQ6IDY1JTsKICAgICAgICAgICAgd2lkdGg6IDEwMCU7CiAgICAgICAgfQoKICAgICAgICBodG1sLAogICAgICAgIGJvZHkgewogICAgICAgICAgICBoZWlnaHQ6IDk4LjUlOwogICAgICAgICAgICBtYXJnaW46IDA7CiAgICAgICAgICAgIHBhZGRpbmc6IDA7CiAgICAgICAgICAgIGZvbnQtZmFtaWx5OiBBYmVsOwogICAgICAgIH0KICAgIDwvc3R5bGU+Cgo8L2hlYWQ+Cgo8Ym9keT4KCiAgICA8bmF2PgogICAgICAgIDxkaXYgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6IGJsYWNrOyIgY2xhc3M9Im5hdi13cmFwcGVyIj4KICAgICAgICAgICAgPGEgaHJlZj0iIyIgc3R5bGU9Im1hcmdpbi1sZWZ0OiAxMHB4OyIgY2xhc3M9ImJyYW5kLWxvZ28iPkVhc3QvV2VzdCBEZW1vIGFwcDwvYT4KICAgICAgICAgICAgPHVsIGlkPSJuYXYtbW9iaWxlIiBjbGFzcz0icmlnaHQgaGlkZS1vbi1tZWQtYW5kLWRvd24iPgogICAgICAgICAgICAgICAgPGxpPjxhIG9uY2xpY2s9InNob3dMb2dpbk1vZGFsKCkiPkxvZ2luPC9hPjwvbGk+CiAgICAgICAgICAgICAgICA8bGk+PGEgb25jbGljaz0ic2hvd1JlZ2lzdGVyTW9kYWwoKSI+UmVnaXN0ZXI8L2E+PC9saT4KICAgICAgICAgICAgPC91bD4KICAgICAgICA8L2Rpdj4KICAgIDwvbmF2PgoKICAgIDxkaXYgc3R5bGU9ImhlaWdodDozNSU7IiBjbGFzcz0icm93Ij4KCiAgICAgICAgPGRpdiBzdHlsZT0id2lkdGg6NTAlOyBmbG9hdDpsZWZ0OyBwYWRkaW5nOjE1cHg7Ij4KCiAgICAgICAgICAgIDxoNT48L2g1PgoKICAgICAgICAgICAgPGRpdiBjbGFzcz0iaW5wdXQtZmllbGQiPgogICAgICAgICAgICAgICAgPGg2PkFkZCBUb3BpYzwvaDY+CiAgICAgICAgICAgICAgICA8aW5wdXQgaWQ9Im5ld1RvcGljIiB0eXBlPSJ0ZXh0IiBjbGFzcz0iYnJvd3Nlci1kZWZhdWx0IiAvPgogICAgICAgICAgICA8L2Rpdj4KCgogICAgICAgICAgICA8ZGl2IG9uY2xpY2s9ImFkZFRvcGljKCk7IiBjbGFzcz0iYnRuIj5DcmVhdGU8L2Rpdj4KCiAgICAgICAgPC9kaXY+CgogICAgICAgIDxkaXYgc3R5bGU9IndpZHRoOjUwJTsgZmxvYXQ6IHJpZ2h0O3BhZGRpbmc6MTVweDsiPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJpbnB1dC1maWVsZCI+CiAgICAgICAgICAgICAgICA8aDY+U2VsZWN0IFRvcGljPC9oNj4KICAgICAgICAgICAgICAgIDxzZWxlY3Qgb25jaGFuZ2U9InNldFRvcGljRGV0YWlsKCkiIGlkPSJ0b3BpY3MiIHR5cGU9InRleHQiIGNsYXNzPSJicm93c2VyLWRlZmF1bHQiPgogICAgICAgICAgICAgICAgPC9zZWxlY3Q+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICA8YnIgLz4KICAgICAgICAgICAgPGg1PkRldGFpbHM8L2g1PgogICAgICAgICAgICA8dWwgaWQ9dG9waWNEZXRhaWxzPgoKICAgICAgICAgICAgPC91bD4KICAgICAgICA8L2Rpdj4KICAgIDwvZGl2PgoKICAgIDwhLS0gTW9kYWwgLS0+CiAgICA8ZGl2IGlkPSJtb2RhbC1sb2dpbiIgY2xhc3M9Im1vZGFsIj4KICAgICAgICA8ZGl2IGNsYXNzPSJtb2RhbC1jb250ZW50Ij4KICAgICAgICAgICAgPGltZyBzdHlsZT0iaGVpZ2h0OjMwcHg7ZmxvYXQ6cmlnaHQ7IgogICAgICAgICAgICAgICAgc3JjPSJodHRwczovL21lZGlhLWV4cDEubGljZG4uY29tL2Rtcy9pbWFnZS9DNEUwQkFRR0R3eS1BR0F1LUhnL2NvbXBhbnktbG9nb18yMDBfMjAwLzA/ZT0yMTU5MDI0NDAwJnY9YmV0YSZ0PXdETWowSlFxT1haMWdDRXF1UVNxN0d3LW5RanNEVjVSMVplampRejVrZTQiIC8+CiAgICAgICAgICAgIDxoND5Mb2dpbjwvaDQ+CiAgICAgICAgICAgIDxwPlBsZWFzZSBsb2dpbjwvcD4KICAgICAgICAgICAgPGZvcm0gY2xhc3M9ImNvbCBzMTIiPgogICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0icm93Ij4KCiAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iaW5wdXQtZmllbGQgY29sIHMxMiI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxsYWJlbCBmb3I9InVzZXJuYW1lIj5Vc2VybmFtZTwvbGFiZWw+CiAgICAgICAgICAgICAgICAgICAgICAgIDxpbnB1dCBuYW1lPSJ1c2VybmFtZSIgdmFsdWU9IiIgaWQ9InVzZXJuYW1lIiB0eXBlPSJ0ZXh0Ij4KICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iaW5wdXQtZmllbGQgY29sIHMxMiI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxsYWJlbCBmb3I9InBhc3N3b3JkIj5QYXNzd29yZDwvbGFiZWw+CiAgICAgICAgICAgICAgICAgICAgICAgIDxpbnB1dCBuYW1lPSJwYXNzd29yZCIgaWQ9InBhc3N3b3JkIiB2YWx1ZT0iIiB0eXBlPSJwYXNzd29yZCI+CgogICAgICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgICAgIDxhIG9uY2xpY2s9ImxvZ2luKCkiIGNsYXNzPSJtb2RhbC1hY3Rpb24gbW9kYWwtY2xvc2Ugd2F2ZXMtZWZmZWN0IHdhdmVzLWdyZWVuIGJ0bi1mbGF0IGdyZWVuIj5HZXQKICAgICAgICAgICAgICAgICAgICAgICAgQWNjZXNzIFRva2VuPC9hPgogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJtb2RhbC1hY3Rpb24gbW9kYWwtY2xvc2Ugd2F2ZXMtZWZmZWN0IHdhdmVzLWdyZWVuIGJ0bi1mbGF0IHJlZCB3aGl0ZS10ZXh0Ij5DYW5jZWw8L2E+CiAgICAgICAgICAgIDwvZm9ybT4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJtb2RhbC1mb290ZXIiPgoKICAgICAgICA8L2Rpdj4KICAgIDwvZGl2PgogICAgPC9kaXY+CgogICAgPCEtLSBNb2RhbCAtLT4KICAgIDxkaXYgaWQ9Im1vZGFsLXJlZ2lzdGVyIiBjbGFzcz0ibW9kYWwiPgogICAgICAgIDxkaXYgY2xhc3M9Im1vZGFsLWNvbnRlbnQiPgogICAgICAgICAgICA8aW1nIHN0eWxlPSJoZWlnaHQ6MzBweDtmbG9hdDpyaWdodDsiCiAgICAgICAgICAgICAgICBzcmM9Imh0dHBzOi8vbWVkaWEtZXhwMS5saWNkbi5jb20vZG1zL2ltYWdlL0M0RTBCQVFHRHd5LUFHQXUtSGcvY29tcGFueS1sb2dvXzIwMF8yMDAvMD9lPTIxNTkwMjQ0MDAmdj1iZXRhJnQ9d0RNajBKUXFPWFoxZ0NFcXVRU3E3R3ctblFqc0RWNVIxWmVqalF6NWtlNCIgLz4KICAgICAgICAgICAgPGg0PlJlZ2lzdGVyPC9oND4KICAgICAgICAgICAgPHA+Q3JlYXRlIGEgbmV3IHVzZXI8L3A+CiAgICAgICAgICAgIDxmb3JtIGNsYXNzPSJjb2wgczEyIj4KICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9InJvdyI+CgogICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9ImlucHV0LWZpZWxkIGNvbCBzMTIiPgogICAgICAgICAgICAgICAgICAgICAgICA8bGFiZWwgZm9yPSJyZWdfdXNlcm5hbWUiPlVzZXJuYW1lPC9sYWJlbD4KICAgICAgICAgICAgICAgICAgICAgICAgPGlucHV0IG5hbWU9InJlZ191c2VybmFtZSIgdmFsdWU9IiIgaWQ9InJlZ191c2VybmFtZSIgdHlwZT0idGV4dCI+CiAgICAgICAgICAgICAgICAgICAgPC9kaXY+CgogICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9ImlucHV0LWZpZWxkIGNvbCBzMTIiPgogICAgICAgICAgICAgICAgICAgICAgICA8bGFiZWwgZm9yPSJyZWdfcGFzc3dvcmQiPlBhc3N3b3JkPC9sYWJlbD4KICAgICAgICAgICAgICAgICAgICAgICAgPGlucHV0IG5hbWU9InJlZ19wYXNzd29yZCIgaWQ9InJlZ19wYXNzd29yZCIgdmFsdWU9IiIgdHlwZT0icGFzc3dvcmQiPgoKICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICA8YSBvbmNsaWNrPSJyZWdpc3RlcigpIgogICAgICAgICAgICAgICAgICAgICAgICBjbGFzcz0ibW9kYWwtYWN0aW9uIG1vZGFsLWNsb3NlIHdhdmVzLWVmZmVjdCB3YXZlcy1ncmVlbiBidG4tZmxhdCBncmVlbiI+UmVnaXN0ZXIgYW5kIGxvZ2luPC9hPgogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJtb2RhbC1hY3Rpb24gbW9kYWwtY2xvc2Ugd2F2ZXMtZWZmZWN0IHdhdmVzLWdyZWVuIGJ0bi1mbGF0IHJlZCB3aGl0ZS10ZXh0Ij5DYW5jZWw8L2E+CiAgICAgICAgICAgIDwvZm9ybT4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJtb2RhbC1mb290ZXIiPgoKICAgICAgICA8L2Rpdj4KICAgIDwvZGl2PgogICAgPC9kaXY+CgoKICAgIDwvc2NyaXB0PgoKICAgIDxzY3JpcHQgdHlwZT0idGV4dC9qYXZhc2NyaXB0IiBzcmM9Imh0dHBzOi8vY29kZS5qcXVlcnkuY29tL2pxdWVyeS0zLjEuMS5taW4uanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL21hdGVyaWFsaXplLzAuOTguMi9qcy9tYXRlcmlhbGl6ZS5taW4uanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdD4KCiAgICAgICAgZnVuY3Rpb24gbG9naW4oKSB7CiAgICAgICAgICAgIHZhciB1c2VybmFtZSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJ1c2VybmFtZSIpLnZhbHVlOwogICAgICAgICAgICB2YXIgcGFzc3dvcmQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgicGFzc3dvcmQiKS52YWx1ZTsKICAgICAgICAgICAgdmFyIHNldHRpbmdzID0gewogICAgICAgICAgICAgICAgImFzeW5jIjogdHJ1ZSwKICAgICAgICAgICAgICAgICJjcm9zc0RvbWFpbiI6IHRydWUsCiAgICAgICAgICAgICAgICAidXJsIjogIi9sb2dpbiIsCiAgICAgICAgICAgICAgICAibWV0aG9kIjogIlBPU1QiLAogICAgICAgICAgICAgICAgImhlYWRlcnMiOiB7CiAgICAgICAgICAgICAgICAgICAgIkNvbnRlbnQtVHlwZSI6ICJhcHBsaWNhdGlvbi9qc29uIgogICAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAgICJkYXRhIjogSlNPTi5zdHJpbmdpZnkoeyAidXNlcm5hbWUiOiB1c2VybmFtZSwgInBhc3N3b3JkIjogcGFzc3dvcmQgfSkKICAgICAgICAgICAgfQoKICAgICAgICAgICAgJC5hamF4KHNldHRpbmdzKS5kb25lKGZ1bmN0aW9uIChyZXNwb25zZSkgewogICAgICAgICAgICAgICAgYWNjZXNzX3Rva2VuID0gcmVzcG9uc2U7CiAgICAgICAgICAgICAgICBzZXRVc2VyKHVzZXJuYW1lKTsKICAgICAgICAgICAgICAgIGxpc3RUb3BpY3MoKTsKICAgICAgICAgICAgICAgICQoJyNtb2RhbC1sb2dpbicpLm1vZGFsKCdjbG9zZScpOwogICAgICAgICAgICB9KS5mYWlsKChlcnJvcikgPT4gewogICAgICAgICAgICAgICAgYWxlcnQoZXJyb3IucmVzcG9uc2VUZXh0KQogICAgICAgICAgICB9KTsKCiAgICAgICAgfQoKICAgICAgICBmdW5jdGlvbiByZWdpc3RlcigpIHsKICAgICAgICAgICAgdmFyIHVzZXJuYW1lID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoInJlZ191c2VybmFtZSIpLnZhbHVlOwogICAgICAgICAgICB2YXIgcGFzc3dvcmQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgicmVnX3Bhc3N3b3JkIikudmFsdWU7CiAgICAgICAgICAgIHZhciBzZXR0aW5ncyA9IHsKICAgICAgICAgICAgICAgICJhc3luYyI6IHRydWUsCiAgICAgICAgICAgICAgICAiY3Jvc3NEb21haW4iOiB0cnVlLAogICAgICAgICAgICAgICAgInVybCI6ICIvcmVnaXN0ZXIiLAogICAgICAgICAgICAgICAgIm1ldGhvZCI6ICJQT1NUIiwKICAgICAgICAgICAgICAgICJoZWFkZXJzIjogewogICAgICAgICAgICAgICAgICAgICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiIKICAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgICAiZGF0YSI6IEpTT04uc3RyaW5naWZ5KHsgInVzZXJuYW1lIjogdXNlcm5hbWUsICJwYXNzd29yZCI6IHBhc3N3b3JkLCAibmFtZSI6IHVzZXJuYW1lLCAicm9sZXMiOiBbInVzZXIiLCAiYWRtaW4iXSB9KQogICAgICAgICAgICB9CgogICAgICAgICAgICAkLmFqYXgoc2V0dGluZ3MpLmRvbmUoKHJlc3BvbnNlKSA9PiB7CiAgICAgICAgICAgICAgICBhY2Nlc3NfdG9rZW4gPSByZXNwb25zZTsKICAgICAgICAgICAgICAgIHNldFVzZXIodXNlcm5hbWUpOwogICAgICAgICAgICAgICAgbGlzdFRvcGljcygpOwogICAgICAgICAgICAgICAgJCgnI21vZGFsLXJlZ2lzdGVyJykubW9kYWwoJ2Nsb3NlJyk7CiAgICAgICAgICAgIH0pLmZhaWwoKGVycm9yKSA9PiB7CiAgICAgICAgICAgICAgICBhbGVydChlcnJvci5yZXNwb25zZVRleHQpCiAgICAgICAgICAgIH0pOwogICAgICAgIH0KCiAgICAgICAgZnVuY3Rpb24gbGlzdFRvcGljcygpIHsKICAgICAgICAgICAgdmFyIHNldHRpbmdzID0gewogICAgICAgICAgICAgICAgImFzeW5jIjogdHJ1ZSwKICAgICAgICAgICAgICAgICJjcm9zc0RvbWFpbiI6IHRydWUsCiAgICAgICAgICAgICAgICAidXJsIjogIi90b3BpYyIsCiAgICAgICAgICAgICAgICAibWV0aG9kIjogIkdFVCIsCiAgICAgICAgICAgICAgICAiaGVhZGVycyI6IHsKICAgICAgICAgICAgICAgICAgICAiQXV0aG9yaXphdGlvbiI6ICJCZWFyZXIgIiArIGFjY2Vzc190b2tlbgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CgogICAgICAgICAgICAkLmFqYXgoc2V0dGluZ3MpLmRvbmUoKHJlc3BvbnNlKSA9PiB7CiAgICAgICAgICAgICAgICB2YXIgdG9waWNPcHRzID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoInRvcGljcyIpCiAgICAgICAgICAgICAgICB0b3BpY09wdHMuaW5uZXJIVE1MID0gJyc7CiAgICAgICAgICAgICAgICB0b3BpY3MgPSBKU09OLnBhcnNlKHJlc3BvbnNlKTsKICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgZm9yIChsZXQgaSA9IDA7IGkgPCB0b3BpY3MubGVuZ3RoOyBpKyspIHsKICAgICAgICAgICAgICAgICAgICB0b3BpY09wdHMuaW5uZXJIVE1MICs9ICc8b3B0aW9uIHZhbHVlPSInKyB0b3BpY3NbaV0udGl0bGUgKyciPicgKyB0b3BpY3NbaV0udGl0bGUgKyAnPC9vcHRpb24+JwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgc2V0VG9waWNEZXRhaWwoKTsKCiAgICAgICAgICAgIH0pLmZhaWwoKGVycm9yKSA9PiB7CiAgICAgICAgICAgICAgICBhbGVydChlcnJvci5yZXNwb25zZVRleHQpCiAgICAgICAgICAgIH0pOwogICAgICAgIH0KCiAgICAgICAgZnVuY3Rpb24gYWRkVG9waWMoKSB7CiAgICAgICAgICAgIHZhciBuZXdUb3BpYyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJuZXdUb3BpYyIpLnZhbHVlOwogICAgICAgICAgICB2YXIgc2V0dGluZ3MgPSB7CiAgICAgICAgICAgICAgICAiYXN5bmMiOiB0cnVlLAogICAgICAgICAgICAgICAgImNyb3NzRG9tYWluIjogdHJ1ZSwKICAgICAgICAgICAgICAgICJ1cmwiOiAiL3RvcGljIiwKICAgICAgICAgICAgICAgICJtZXRob2QiOiAiUE9TVCIsCiAgICAgICAgICAgICAgICAiaGVhZGVycyI6IHsKICAgICAgICAgICAgICAgICAgICAiQ29udGVudC1UeXBlIjogImFwcGxpY2F0aW9uL2pzb24iLAogICAgICAgICAgICAgICAgICAgICJBdXRob3JpemF0aW9uIjogIkJlYXJlciAiICsgYWNjZXNzX3Rva2VuCiAgICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICAgImRhdGEiOiBKU09OLnN0cmluZ2lmeSh7ICJ0aXRsZSI6IG5ld1RvcGljLCAiYm9keSI6IlRoaXMgaXMganVzdCBhIHRlc3QgdG9waWMiLCAia2V5d29yZHMiOlsia3ViZXJuZXRlcyIsIm1lc2giXSB9KQogICAgICAgICAgICB9CgogICAgICAgICAgICAkLmFqYXgoc2V0dGluZ3MpLmRvbmUoKHJlc3BvbnNlKSA9PiB7CiAgICAgICAgICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgibmV3VG9waWMiKS52YWx1ZSA9ICIiOwogICAgICAgICAgICAgICAgbGlzdFRvcGljcygpOwogICAgICAgICAgICB9KS5mYWlsKChlcnJvcikgPT4gewogICAgICAgICAgICAgICAgYWxlcnQoZXJyb3IucmVzcG9uc2VUZXh0KQogICAgICAgICAgICB9KTsKICAgICAgICB9CgogICAgICAgIGZ1bmN0aW9uIHNldFRvcGljRGV0YWlsKCl7CiAgICAgICAgICAgIHZhciBzZWxlY3RlZFRvcGljID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoInRvcGljcyIpLnZhbHVlCiAgICAgICAgICAgIHZhciB0b3BpY0RldGFpbHMgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgidG9waWNEZXRhaWxzIik7CiAgICAgICAgICAgIHRvcGljRGV0YWlscy5pbm5lckhUTUwgPSAnJzsKICAgICAgICAgICAgZm9yIChsZXQgaSA9IDA7IGkgPCB0b3BpY3MubGVuZ3RoOyBpKyspIHsKICAgICAgICAgICAgICAgIGlmKHRvcGljc1tpXS50aXRsZSA9PSBzZWxlY3RlZFRvcGljKXsKICAgICAgICAgICAgICAgICAgICB0b3BpY0RldGFpbHMuaW5uZXJIVE1MID0gJzxsaT5Cb2R5OiAnKyB0b3BpY3NbaV0uYm9keSArICc8L2xpPjxsaT5DcmVhdGVkOiAnICsgdG9waWNzW2ldLmNyZWF0ZWQgKyAnPC9saT48bGk+S2V5d29yZHM6ICcrIEpTT04uc3RyaW5naWZ5KHRvcGljc1tpXS5rZXl3b3JkcykgKyc8L2xpPicKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgfQoKCiAgICAgICAgLy8gZnVuY3Rpb24gYWRkQ29tbWVudCgpIHsKICAgICAgICAvLyAgICAgdmFyIGNvbW1lbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgibmV3Q29tbWVudCIpLnZhbHVlOwogICAgICAgIC8vICAgICB2YXIgcGFzc3dvcmQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgicmVnX3Bhc3N3b3JkIikudmFsdWU7CiAgICAgICAgLy8gICAgIHZhciBzZXR0aW5ncyA9IHsKICAgICAgICAvLyAgICAgICAgICJhc3luYyI6IHRydWUsCiAgICAgICAgLy8gICAgICAgICAiY3Jvc3NEb21haW4iOiB0cnVlLAogICAgICAgIC8vICAgICAgICAgInVybCI6ICIvcmVnaXN0ZXIiLAogICAgICAgIC8vICAgICAgICAgIm1ldGhvZCI6ICJQT1NUIiwKICAgICAgICAvLyAgICAgICAgICJoZWFkZXJzIjogewogICAgICAgIC8vICAgICAgICAgICAgICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiIKICAgICAgICAvLyAgICAgICAgIH0sCiAgICAgICAgLy8gICAgICAgICAiZGF0YSI6IEpTT04uc3RyaW5naWZ5KHsgInVzZXJuYW1lIjogdXNlcm5hbWUsICJwYXNzd29yZCI6IHBhc3N3b3JkLCAibmFtZSI6IHVzZXJuYW1lLCAicm9sZXMiOiBbInVzZXIiLCAiYWRtaW4iXSB9KQogICAgICAgIC8vICAgICB9CgogICAgICAgIC8vICAgICAkLmFqYXgoc2V0dGluZ3MpLmRvbmUoKHJlc3BvbnNlKSA9PiB7CiAgICAgICAgLy8gICAgICAgICBhY2Nlc3NfdG9rZW4gPSByZXNwb25zZTsKICAgICAgICAvLyAgICAgICAgIHNldFVzZXIodXNlcm5hbWUpOwogICAgICAgIC8vICAgICAgICAgJCgnI21vZGFsLXJlZ2lzdGVyJykubW9kYWwoJ2Nsb3NlJyk7CiAgICAgICAgLy8gICAgIH0pLmZhaWwoKGVycm9yKSA9PiB7CiAgICAgICAgLy8gICAgICAgICBhbGVydChlcnJvci5yZXNwb25zZVRleHQpCiAgICAgICAgLy8gICAgIH0pOwogICAgICAgIC8vIH0KCiAgICAgICAgY29uc3Qgc2hvd0xvZ2luTW9kYWwgPSAoKSA9PiB7ICQoJyNtb2RhbC1sb2dpbicpLm1vZGFsKCdvcGVuJyk7IH0KICAgICAgICBjb25zdCBzaG93UmVnaXN0ZXJNb2RhbCA9ICgpID0+IHsgJCgnI21vZGFsLXJlZ2lzdGVyJykubW9kYWwoJ29wZW4nKTsgfQogICAgICAgIGNvbnN0IHNldFVzZXIgPSAodXNlcikgPT4gewogICAgICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgibmF2LW1vYmlsZSIpLmlubmVySFRNTCA9ICc8bGk+PGE+JyArIHVzZXIgKyAnPC9hPjwvbGk+JwogICAgICAgIH07CiAgICAgICAgJCgnLm1vZGFsJykubW9kYWwoKTsKICAgICAgICAvLyAkKCcjbW9kYWwtbG9naW4nKS5tb2RhbCgnb3BlbicpOwogICAgICAgIC8vICQoJyNtb2RhbC1yZWdpc3RlcicpLm1vZGFsKCdvcGVuJyk7CiAgICAgICAgJCgnc2VsZWN0JykubWF0ZXJpYWxfc2VsZWN0KCk7CiAgICAgICAgdmFyIGxvY2F0aW9ucyA9IFtdOwogICAgICAgIHZhciBhY2Nlc3NfdG9rZW4gPSAnJzsKICAgICAgICB2YXIgc2VhcmNoUmVzdWx0cyA9ICcnOwogICAgICAgIHZhciB0b3BpY3MgPSAnJzsKCgogICAgPC9zY3JpcHQ+CgoKPC9ib2R5PgoKPC9odG1sPg=="/&gt;
+                &lt;L7p:ResponseContentType stringValue="text/html; charset=UTF-8"/&gt;
+            &lt;/L7p:HardcodedResponse&gt;
+        &lt;/wsp:OneOrMore&gt;
+    &lt;/wsp:All&gt;
+&lt;/wsp:Policy&gt;
+</l7:Resource>
+                        </l7:ResourceSet>
+                    </l7:Resources>
+                </l7:Service>
+            </l7:Resource>
+        </l7:Item>
+    </l7:References>
+    <l7:Mappings>
+        <l7:Mapping action="NewOrExisting" srcId="0000000000000000ffffffffffffec76" type="FOLDER"/>
+        <l7:Mapping action="NewOrExisting" srcId="31cb1b3b3050ba5e93855dd39c91504b" type="FOLDER">
+            <l7:Properties>
+                <l7:Property key="MapBy">
+                    <l7:StringValue>path</l7:StringValue>
+                </l7:Property>
+                <l7:Property key="MapTo">
+                    <l7:StringValue>dmz/</l7:StringValue>
+                </l7:Property>
+            </l7:Properties>
+        </l7:Mapping>
+        <l7:Mapping action="NewOrUpdate" srcId="31cb1b3b3050ba5e93855dd39c91504c" type="SERVICE">
+            <l7:Properties>
+                <l7:Property key="MapBy">
+                    <l7:StringValue>path</l7:StringValue>
+                </l7:Property>
+                <l7:Property key="MapTo">
+                    <l7:StringValue>dmz/performance test</l7:StringValue>
+                </l7:Property>
+            </l7:Properties>
+        </l7:Mapping>
+        <l7:Mapping action="NewOrUpdate" srcId="31cb1b3b3050ba5e93855dd39c91504d" type="SERVICE">
+            <l7:Properties>
+                <l7:Property key="MapBy">
+                    <l7:StringValue>path</l7:StringValue>
+                </l7:Property>
+                <l7:Property key="MapTo">
+                    <l7:StringValue>dmz/OAuth Manager RP</l7:StringValue>
+                </l7:Property>
+            </l7:Properties>
+        </l7:Mapping>
+        <l7:Mapping action="NewOrUpdate" srcId="31cb1b3b3050ba5e93855dd39c91504e" type="SERVICE">
+            <l7:Properties>
+                <l7:Property key="MapBy">
+                    <l7:StringValue>path</l7:StringValue>
+                </l7:Property>
+                <l7:Property key="MapTo">
+                    <l7:StringValue>dmz/Istio East West Demo App</l7:StringValue>
+                </l7:Property>
+            </l7:Properties>
+        </l7:Mapping>
+    </l7:Mappings>
+</l7:Bundle>
