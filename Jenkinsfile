@@ -22,13 +22,14 @@ def getBundles(directory) {
         echo "Posting: ${f.name}"
         //def myfile = readFile(f.name)
         //echo myfile
-        def abspath = pwd();
-        echo abspath;
+        
         println postToGateway(f.name)
    }
    }
 }
 
 def postToGateway(file){
+   def abspath = pwd();
+   echo abspath;
    return sh(script: "curl -u ${env.restman_username}:${env.restman_password} -k https://${env.gateway_hostname}${env.restman_path} -XPUT --data-binary @bundles/$file", returnStdout: true)
 }
