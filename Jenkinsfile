@@ -20,8 +20,7 @@ def getBundles(directory) {
     def files = findFiles()
         files.each{ f -> 
         echo "Posting: ${f.name}"
-           def myfile = readFile("${f.name}")
-        
+        def myfile = readFile(f.name)
         println postToGateway(myFile)
    }
    }
