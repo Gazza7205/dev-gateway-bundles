@@ -8,7 +8,7 @@
             <l7:Resource>
                 <l7:ClusterProperty id="240350288799c9fe03459e05b31fe731">
                     <l7:Name>envPropColor</l7:Name>
-                    <l7:Value>red</l7:Value>
+                    <l7:Value>blue</l7:Value>
                 </l7:ClusterProperty>
             </l7:Resource>
         </l7:Item>
