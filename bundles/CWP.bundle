@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<l7:Bundle xmlns:l7="http://ns.l7tech.com/2010/04/gateway-management">
+    <l7:References>
+        <l7:Item>
+            <l7:Name>envPropColor</l7:Name>
+            <l7:Id>240350288799c9fe03459e05b31fe731</l7:Id>
+            <l7:Type>CLUSTER_PROPERTY</l7:Type>
+            <l7:Resource>
+                <l7:ClusterProperty id="240350288799c9fe03459e05b31fe731">
+                    <l7:Name>envPropColor</l7:Name>
+                    <l7:Value>red</l7:Value>
+                </l7:ClusterProperty>
+            </l7:Resource>
+        </l7:Item>
+    </l7:References>
+    <l7:Mappings>
+        <l7:Mapping action="NewOrUpdate" srcId="240350288799c9fe03459e05b31fe731" type="CLUSTER_PROPERTY">
+            <l7:Properties>
+                <l7:Property key="MapBy">
+                    <l7:StringValue>name</l7:StringValue>
+                </l7:Property>
+                <l7:Property key="MapTo">
+                    <l7:StringValue>envPropColor</l7:StringValue>
+                </l7:Property>
+            </l7:Properties>
+        </l7:Mapping>
+    </l7:Mappings>
+</l7:Bundle>
